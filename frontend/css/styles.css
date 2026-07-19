@@ -676,6 +676,26 @@ input.valido {
 
 .historial-item:last-child { border-bottom: none; }
 
-.menu-card-label.salir {
-    color: #c0392b;
+.menu-card.salir {
+    background: #dc3545;
+    transition: 0.3s;
+}
+
+.menu-card.salir:hover {
+    background: #bb2d3b;
+    transform: translateY(-3px);
+}
+
+.menu-card.salir {
+    background: #dc3545;
+    transition: var(--transicion);
+}
+
+.menu-card.salir:hover {
+    background: #bb2d3b;
+    transform: translateY(-3px);
+}
+
+.menu-card.salir .menu-card-label {
+    color: #ffffff;
 }
