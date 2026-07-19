@@ -1,54 +1,72 @@
-# 🧇 OttoPOS — Estructura del Proyecto
+# 🧇 OttoPOS
 
-## Estructura de carpetas
+OttoPOS es un sistema web desarrollado para administrar un negocio de venta de arepas. Permite gestionar ventas, inventario, usuarios y generar facturas de forma sencilla e intuitiva.
 
+## 🚀 Tecnologías utilizadas
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+- Java
+- Spring Boot
+
+### Base de datos
+- MySQL
+
+## 📁 Estructura del proyecto
+
+```text
+OttoPOS-Proyecto/
+├── backend/
+│   ├── src/
+│   ├── pom.xml
+│   └── ...
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   └── img/
+└── README.md
 ```
-OttoPOS/
-├── index.html                  ← Archivo principal (todas las pantallas)
-├── css/
-│   └── styles.css              ← Todos los estilos del sistema
-├── js/
-│   ├── app.js                  ← Estado global y navegación
-│   ├── login.js                ← Lógica de autenticación y validación
-│   ├── ventas.js               ← Módulo de ventas y facturación
-│   └── inventario-usuarios.js ← Inventario, usuarios y reportes
-└── img/
-    └── (logo, íconos, etc.)
-```
 
-## Usuarios de prueba
+## 👤 Usuarios de prueba
 
-| Usuario   | Contraseña | Rol      |
-|-----------|------------|----------|
-| admin     | 1234       | Admin    |
-| operador  | 0000       | Operador |
-| caja      | 9999       | Caja     |
+| Usuario | Contraseña | Rol |
+|---------|------------|------|
+| admin | 1234 | Administrador |
+| operador | 0000 | Operador |
+| caja | 9999 | Caja |
 
-## Funcionalidades
+## ✅ Funcionalidades
 
-### Login
-- Validación en tiempo real (campo por campo)
-- Mensajes de error animados
-- Enter para confirmar
+- Inicio de sesión con validación de usuarios.
+- Gestión de ventas y facturación.
+- Administración de inventario.
+- Gestión de usuarios.
+- Reportes del sistema.
+- Interfaz web responsive.
 
-### Ventas
-- Agregar/eliminar productos del pedido
-- Total actualizado en tiempo real
-- Selección de medio de pago
-- Factura modal con número y fecha
+## ⚙️ Requisitos
 
-### Inventario
-- Ver stock actual
-- Editar cantidades
-- Alerta de stock bajo
+- Java JDK 21
+- Spring Boot
+- MySQL
+- XAMPP
+- Visual Studio Code
 
-### Usuarios
-- Agregar usuarios con rol
-- Validación de campos
-- Eliminar usuarios
+## ▶️ Ejecución del proyecto
 
-## Cómo abrir en VS Code
+1. Iniciar MySQL desde XAMPP.
+2. Ejecutar el backend con Spring Boot.
+3. Abrir el frontend desde Visual Studio Code.
+4. Ejecutar `index.html` con Live Server.
 
-1. Abrir la carpeta `OttoPOS/` en VS Code
-2. Instalar la extensión **Live Server**
-3. Click derecho sobre `index.html` → **Open with Live Server**
+## 👨‍💻 Autor
+
+**Gelver Rodríguez**
+
+Proyecto desarrollado como evidencia para el programa **Tecnólogo en Análisis y Desarrollo de Software (ADSO) - SENA**.
