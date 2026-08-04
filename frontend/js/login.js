@@ -1363,3 +1363,93 @@ document.addEventListener(
 
   }
 );
+// ==================================================
+// AUTENTICACIÓN CON GOOGLE
+// ==================================================
+
+/**
+ * Procesa la respuesta de Google Sign-In.
+ *
+ * Recibe el ID token emitido por Google, lo envía
+ * al backend para su validación y autentica al
+ * usuario en OttoPOS.
+ *
+ * @param {Object} response respuesta de Google
+ * @returns {Promise<void>}
+ */
+async function handleGoogleLogin(response) {
+
+    const idToken =
+        response && response.credential;
+
+    if (!idToken) {
+
+        App.toast(
+            '❌ No se recibió el token de Google.'
+        );
+
+        return;
+
+    }
+
+    const msgEl =
+        document
+            .getElementById('msg-login');
+
+    try {
+
+        /**
+         * Envía el token al backend
+         * para validarlo y autenticar al usuario.
+         */
+        const usuario =
+            await API.autenticarConGoogle(idToken);
+
+        // ==========================
+        // LOGIN CORRECTO
+        // ==========================
+
+        /**
+         * Guarda el usuario autenticado
+         * en el estado global de la aplicación.
+         */
+        App.state.usuarioActual =
+            usuario;
+
+        /**
+         * Muestra el nombre del usuario
+         * en la interfaz principal.
+         */
+        document
+            .getElementById('header-usuario')
+            .textContent =
+            usuario.nombre;
+
+        /**
+         * El cliente de Google solo tiene acceso
+         * al módulo de ventas.
+         */
+        document
+            .getElementById('titulo-ventas')
+            .textContent =
+            'Mi Pedido';
+
+        mostrar('ventas');
+
+        App.toast(
+            `✓ Bienvenido ${usuario.nombre}!`
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        Login._mostrarMsg(
+            msgEl,
+            `❌ ${error.message}`,
+            'error'
+        );
+
+    }
+
+}

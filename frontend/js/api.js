@@ -152,6 +152,57 @@ const API = {
 
         return await respuesta.json();
 
+    },
+
+
+    /**
+     * Autentica a un usuario utilizando
+     * el ID token de Google.
+     *
+     * @param {string} idToken ID token (JWT) de Google
+     * @returns {Promise<Object>} usuario autenticado
+     * @throws {Error} si ocurre un error al autenticar
+     */
+    async autenticarConGoogle(idToken) {
+
+        const respuesta = await fetch(
+
+            `${CONFIG.API_URL}/auth/google`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+                    idToken: idToken
+                })
+
+            }
+
+        );
+
+        if (!respuesta.ok) {
+
+            const errorData =
+                await respuesta.json().catch(() => null);
+
+            throw new Error(
+                errorData && errorData.error
+                    ? errorData.error
+                    : "No fue posible autenticar con Google."
+            );
+
+        }
+
+        return await respuesta.json();
+
     }
 
 };

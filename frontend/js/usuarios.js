@@ -280,15 +280,17 @@ const Usuarios = {
 
         document.getElementById('usr-nombre').value = '';
 
-        document.getElementById('usr-correo').value = '';
+          document.getElementById('usr-correo').value =
+            usuario.correo;
 
-        document.getElementById('usr-contrasena').value = '';
+        document.getElementById('usr-contrasena').value =
+            usuario.contrasena;
 
-        document.getElementById('usr-rol').value = 'Operador';
+        document.getElementById('usr-rol').value =
+            usuario.rol;
 
-        document.getElementById('usr-estado').checked = true;
-
-        this.usuarioEditando = null;
+        document.getElementById('usr-estado').checked =
+            usuario.estado;
 
     }
 

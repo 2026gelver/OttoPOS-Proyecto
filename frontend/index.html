@@ -39,17 +39,31 @@
       </div>
 
       <button id="btn-login" class="btn btn-primary" onclick="Login.ingresar()">
-        Ingresar
-      </button>
+    Ingresar
+</button>
 
-      <div class="msg-error" id="msg-login" style="margin-top:8px;text-align:center;"></div>
+<div style="text-align:center;margin:15px 0;">
+    <div id="g_id_onload"
+         data-client_id="99632164511-pib4m0dovj4jn9a61du3jisgm1cte3oj.apps.googleusercontent.com"
+         data-callback="handleGoogleLogin">
+    </div>
 
-      <div style="text-align:center;margin-top:18px;">
-        <span style="font-size:13px;color:var(--gris-medio);">¿No tienes cuenta?</span>
-        <button class="btn btn-secondary" onclick="mostrar('registro')" style="margin-top:8px;">
-          📝 Regístrate
-        </button>
-      </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="filled_blue"
+         data-text="continue_with">
+    </div>
+</div>
+
+<div class="msg-error" id="msg-login" style="margin-top:8px;text-align:center;"></div>
+
+<div style="text-align:center;margin-top:18px;">
+    <span style="font-size:13px;color:var(--gris-medio);">¿No tienes cuenta?</span>
+    <button class="btn btn-secondary" onclick="mostrar('registro')" style="margin-top:8px;">
+        📝 Regístrate
+    </button>
+</div>
 
     
     </div>
@@ -370,6 +384,8 @@
 <div class="toast" id="toast"></div>
 
 <!-- Scripts -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <script src="js/logo-data.js"></script>
 
 <script src="js/config.js"></script>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Servicio encargado de gestionar la lógica de negocio
@@ -58,6 +59,21 @@ public class UsuarioService {
 
         return usuarioRepository.findById(id)
                 .orElse(null);
+
+    }
+
+    /**
+     * Busca un usuario utilizando su correo electrónico.
+     *
+     * @param correo correo electrónico del usuario
+     * @return usuario encontrado o null si no existe
+     */
+    public Usuario buscarPorCorreo(String correo) {
+
+        Optional<Usuario> usuario =
+                usuarioRepository.findByCorreo(correo);
+
+        return usuario.orElse(null);
 
     }
 
