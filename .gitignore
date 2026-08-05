@@ -28,6 +28,9 @@ Thumbs.db
 # Archivo temporal
 repositorio.txt.txt
 
+# Dependencias JAR (se manejan con Maven)
+**/*.jar
+
 # Maven
 **/target/
 
