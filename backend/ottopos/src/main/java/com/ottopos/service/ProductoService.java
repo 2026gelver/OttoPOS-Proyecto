@@ -53,7 +53,8 @@ public class ProductoService {
                         producto.getPrecio(),
                         producto.getStock(),
                         producto.getCategoria(),
-                        producto.getEstado()
+                        producto.getEstado(),
+                        producto.getImagenUrl()
                 ))
                 .toList();
 

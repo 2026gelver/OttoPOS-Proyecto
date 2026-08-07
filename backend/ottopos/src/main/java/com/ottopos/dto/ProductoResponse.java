@@ -46,6 +46,11 @@ public class ProductoResponse {
     private Boolean estado;
 
     /**
+     * URL de la imagen del producto.
+     */
+    private String imagenUrl;
+
+    /**
      * Constructor vacío utilizado para crear
      * un objeto ProductoResponse sin datos iniciales.
      */
@@ -71,7 +76,8 @@ public class ProductoResponse {
             Double precio,
             Integer stock,
             String categoria,
-            Boolean estado) {
+            Boolean estado,
+            String imagenUrl) {
 
         this.id = id;
         this.nombre = nombre;
@@ -80,6 +86,7 @@ public class ProductoResponse {
         this.stock = stock;
         this.categoria = categoria;
         this.estado = estado;
+        this.imagenUrl = imagenUrl;
 
     }
 
@@ -234,6 +241,28 @@ public class ProductoResponse {
     public void setEstado(Boolean estado) {
 
         this.estado = estado;
+
+    }
+
+    /**
+     * Obtiene la URL de la imagen del producto.
+     *
+     * @return URL de la imagen del producto
+     */
+    public String getImagenUrl() {
+
+        return imagenUrl;
+
+    }
+
+    /**
+     * Asigna la URL de la imagen del producto.
+     *
+     * @param imagenUrl URL de la imagen del producto
+     */
+    public void setImagenUrl(String imagenUrl) {
+
+        this.imagenUrl = imagenUrl;
 
     }
 

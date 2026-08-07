@@ -111,6 +111,10 @@ public class ProductoController {
                 producto.getEstado()
         );
 
+        existente.setImagenUrl(
+                producto.getImagenUrl()
+        );
+
         return productoService.guardarProducto(
                 existente
         );

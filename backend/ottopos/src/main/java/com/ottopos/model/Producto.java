@@ -57,6 +57,12 @@ public class Producto {
     private Boolean estado;
 
     /**
+     * URL de la imagen del producto.
+     */
+    @Column
+    private String imagenUrl;
+
+    /**
      * Constructor vacío requerido por JPA.
      */
     public Producto() {
@@ -186,6 +192,24 @@ public class Producto {
      */
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    /**
+     * Obtiene la URL de la imagen del producto.
+     *
+     * @return URL de la imagen del producto
+     */
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    /**
+     * Asigna la URL de la imagen del producto.
+     *
+     * @param imagenUrl URL de la imagen del producto
+     */
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
 }
