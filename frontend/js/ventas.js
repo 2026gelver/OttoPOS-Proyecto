@@ -70,6 +70,12 @@ const Ventas = {
 
             fila.innerHTML = `
 
+                <img
+                    src="${obtenerImagenProducto(producto)}"
+                    alt="${producto.nombre}"
+                    class="prod-imagen"
+                    onerror="this.src='img/logo.png'">
+
                 <span class="prod-nombre">
 
                     ${producto.nombre}

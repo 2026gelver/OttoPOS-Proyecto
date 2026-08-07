@@ -331,6 +331,16 @@ input.valido {
   margin-right: 12px;
 }
 
+.prod-imagen {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid var(--gris);
+  flex-shrink: 0;
+}
+
 /* ===== LISTA PEDIDO ===== */
 .lista-pedido {
   list-style: none;
@@ -412,6 +422,16 @@ input.valido {
 }
 
 .inv-item:last-child { border-bottom: none; }
+
+.inv-imagen {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid var(--gris);
+  flex-shrink: 0;
+}
 
 .inv-nombre { font-size: 14px; font-weight: 500; }
 

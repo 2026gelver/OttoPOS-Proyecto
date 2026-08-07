@@ -58,6 +58,7 @@ const Inventario = {
                 precio: producto.precio,
                 stock: producto.stock,
                 categoria: producto.categoria,
+                imagenUrl: producto.imagenUrl,
                 estado: producto.estado,
 
                 // Cantidad mínima para generar alerta.
@@ -109,6 +110,12 @@ const Inventario = {
             div.className = "inv-item";
 
             div.innerHTML = `
+
+                <img
+                    src="${obtenerImagenProducto(item)}"
+                    alt="${item.nombre}"
+                    class="inv-imagen"
+                    onerror="this.src='img/logo.png'">
 
                 <div style="flex:1;">
 
@@ -251,6 +258,12 @@ const Inventario = {
             categoria:
                 document
                     .getElementById("prod-categoria")
+                    .value
+                    .trim(),
+
+            imagenUrl:
+                document
+                    .getElementById("prod-imagen")
                     .value
                     .trim(),
 
@@ -402,6 +415,10 @@ const Inventario = {
             .value = producto.categoria;
 
         document
+            .getElementById("prod-imagen")
+            .value = producto.imagenUrl || "";
+
+        document
             .getElementById("prod-estado")
             .checked = producto.estado;
 
@@ -499,6 +516,10 @@ const Inventario = {
 
         document
             .getElementById("prod-categoria")
+            .value = "";
+
+        document
+            .getElementById("prod-imagen")
             .value = "";
 
         document
