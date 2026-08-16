@@ -242,6 +242,12 @@ input.valido {
   background: var(--gris);
 }
 
+.btn-success {
+  background: var(--exito);
+  color: white;
+}
+.btn-success:hover { background: #1e8449; }
+
 .btn-danger {
   background: var(--error);
   color: white;
@@ -256,6 +262,31 @@ input.valido {
 
 .btn-icon {
   font-size: 16px;
+}
+
+/* ===== SELECT FILTRO ESTADO ===== */
+select#filtro-estado {
+  width: 100%;
+  padding: 11px 14px;
+  border: 2px solid var(--amarillo);
+  border-radius: var(--radio);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cafe-dark);
+  background: var(--amarillo);
+  cursor: pointer;
+  transition: var(--transicion);
+  outline: none;
+}
+
+select#filtro-estado:hover {
+  background: #e8b830;
+}
+
+select#filtro-estado:focus {
+  border-color: var(--cafe);
+  box-shadow: 0 0 0 3px rgba(244,197,66,0.2);
 }
 
 /* ===== MENSAJES ===== */
@@ -322,6 +353,13 @@ input.valido {
   color: var(--cafe);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.menu-card.salir {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ===== FILAS PRODUCTO ===== */
@@ -410,6 +448,323 @@ input.valido {
   font-size: 26px;
   color: var(--amarillo);
   letter-spacing: 1px;
+}
+
+/* ===== TIPO DE PEDIDO ===== */
+.tipo-pedido-seccion {
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--gris);
+  border-radius: 12px;
+}
+
+.tipo-pedido-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cafe-light);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tipo-pedido-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tipo-pedido-btn {
+  background: var(--blanco);
+  border: 2px solid var(--gris-medio);
+  color: var(--cafe-light);
+  margin: 0;
+  transition: var(--transicion);
+}
+
+.tipo-pedido-btn:hover {
+  border-color: var(--amarillo);
+  background: var(--amarillo-light);
+}
+
+.tipo-pedido-btn.activo {
+  background: var(--cafe);
+  border-color: var(--cafe);
+  color: white;
+}
+
+/* ===== SECCIONES DE PRODUCTOS ===== */
+.seccion-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cafe);
+  margin: 24px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--amarillo);
+}
+
+.seccion-productos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tarjeta-producto {
+  background: var(--blanco);
+  border: 2px solid var(--gris);
+  border-radius: var(--radio);
+  padding: 14px;
+  transition: var(--transicion);
+}
+
+.tarjeta-producto:hover {
+  border-color: var(--amarillo);
+  box-shadow: var(--sombra);
+}
+
+/* ===== OBSERVACIONES ===== */
+.observaciones-seccion {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--gris-medio);
+}
+
+.observaciones-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cafe-light);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.observaciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.obs-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--texto);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--gris);
+  transition: var(--transicion);
+}
+
+.obs-item:hover {
+  background: var(--amarillo-light);
+}
+
+.obs-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--cafe);
+  cursor: pointer;
+}
+
+/* ===== ADICIÓN DE QUESO ===== */
+.adicion-seccion {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--gris-medio);
+}
+
+.adicion-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cafe-light);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.adicion-btns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.adicion-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto);
+  cursor: pointer;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: var(--gris);
+  border: 2px solid transparent;
+  transition: var(--transicion);
+  text-align: center;
+}
+
+.adicion-item:hover {
+  background: var(--amarillo-light);
+}
+
+.adicion-item:has(input:checked) {
+  background: var(--amarillo);
+  border-color: var(--cafe);
+  color: var(--cafe-dark);
+}
+
+.adicion-item input[type="radio"] {
+  accent-color: var(--cafe);
+  cursor: pointer;
+}
+
+.adicion-item small {
+  font-size: 10px;
+  color: var(--cafe-light);
+  font-weight: 400;
+}
+
+/* ===== BOTONES DE CLIENTES ===== */
+.clientes-btns {
+  margin: 16px 0;
+}
+
+/* ===== PEDIDOS GUARDADOS ===== */
+.pedidos-guardados {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.cliente-guardado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--gris);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--amarillo);
+  animation: fadeInUp 0.2s ease;
+}
+
+.cliente-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe);
+}
+
+.cliente-resumen {
+  font-size: 12px;
+  color: var(--gris-medio);
+  margin-top: 2px;
+}
+
+.cliente-total {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cafe);
+  margin-top: 4px;
+}
+
+/* ===== RESUMEN DE VENTA ===== */
+.resumen-venta {
+  background: var(--blanco);
+  border: 2px solid var(--gris);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.resumen-cliente {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: var(--gris);
+  border-radius: 10px;
+}
+
+.resumen-cliente-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gris-medio);
+  margin-bottom: 6px;
+}
+
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 0;
+  color: var(--texto);
+}
+
+.resumen-cliente-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe-light);
+  padding-top: 6px;
+  border-top: 1px dashed var(--gris-medio);
+  margin-top: 6px;
+}
+
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--cafe);
+  color: white;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.resumen-total span:last-child {
+  color: var(--amarillo);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+/* ===== FACTURA POR CLIENTE ===== */
+.factura-cliente {
+  margin-bottom: 14px;
+  padding: 10px;
+  background: var(--gris);
+  border-radius: 10px;
+}
+
+.factura-cliente-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gris-medio);
+  margin-bottom: 6px;
+}
+
+.factura-cliente-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe-light);
+  padding-top: 6px;
+  border-top: 1px dashed var(--gris-medio);
+  margin-top: 6px;
 }
 
 /* ===== PAGO ===== */
@@ -521,6 +876,8 @@ input.valido {
   padding: 28px;
   width: 90%;
   max-width: 360px;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 24px 64px rgba(0,0,0,0.25);
   animation: scaleIn 0.25s ease;
 }
@@ -545,6 +902,28 @@ input.valido {
 }
 
 .factura-fecha { font-size: 12px; color: var(--gris-medio); }
+
+.factura-vendedor {
+  font-size: 12px;
+  color: var(--cafe);
+  font-weight: 600;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: var(--amarillo-light);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.factura-tipo-pedido {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cafe-dark);
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: var(--amarillo);
+  border-radius: 8px;
+  display: inline-block;
+}
 
 .factura-item {
   display: flex;
@@ -737,4 +1116,196 @@ input.valido {
 
 .menu-card.salir .menu-card-label {
     color: #ffffff;
+}
+
+/* ===== PEDIDOS ===== */
+.pedidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.pedido-card {
+  background: var(--blanco);
+  border: 2px solid var(--gris);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--sombra);
+  animation: fadeInUp 0.2s ease;
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pedido-numero {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cafe);
+}
+
+.pedido-estado {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.estado-en-proceso {
+  background: #FED7AA;
+  color: #9A3412;
+}
+
+.estado-entregado {
+  background: #BBF7D0;
+  color: #166534;
+}
+
+.estado-cancelado {
+  background: #FECACA;
+  color: #B91C1C;
+}
+
+.pedido-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--gris-medio);
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pedido-tipo {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.pedido-tipo.mesa {
+  background: var(--amarillo-light);
+  color: var(--cafe-dark);
+}
+
+.pedido-tipo.llevar {
+  background: var(--gris);
+  color: var(--cafe-light);
+}
+
+.pedido-detalles {
+  margin: 10px 0;
+  padding: 10px;
+  background: var(--gris);
+  border-radius: 10px;
+}
+
+.pedido-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--gris-medio);
+}
+
+.pedido-item:last-child {
+  border-bottom: none;
+}
+
+.pedido-item-subtotal {
+  font-weight: 600;
+  color: var(--cafe-light);
+  white-space: nowrap;
+}
+
+.pedido-detalle-obs {
+  font-size: 11px;
+  color: var(--gris-medio);
+  margin-top: 2px;
+}
+
+.pedido-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cafe);
+  padding-top: 8px;
+  border-top: 2px solid var(--cafe);
+}
+
+.pedido-botones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ===== IMPRESIÓN ===== */
+@media print {
+
+  /* El botón Imprimir usa una ventana separada (ventas.js),
+     pero si el usuario imprime directamente (Ctrl+P),
+     ocultamos todo excepto el contenido de la factura. */
+
+  body * {
+    visibility: hidden;
+  }
+
+  .modal-overlay,
+  .modal-overlay * {
+    visibility: visible;
+  }
+
+  .modal-overlay {
+    position: static !important;
+    display: block !important;
+    background: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .modal {
+    max-height: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .modal > div:first-child,
+  .modal > div:first-child img {
+    display: none !important;
+  }
+
+  .modal > div:nth-child(2) {
+    display: none !important;
+  }
+
+  /* Conservar proporción de imágenes */
+  #factura-contenido img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  .factura-header,
+  .factura-cliente,
+  .factura-total,
+  .factura-pago {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  @page {
+    size: auto;
+    margin: 10mm;
+  }
 }

@@ -4,8 +4,8 @@ package com.ottopos.dto;
  * Objeto de transferencia de datos utilizado para recibir
  * la información de un detalle de venta desde el frontend.
  *
- * Esta clase representa el producto y la cantidad solicitada
- * dentro de una venta.
+ * Esta clase representa el producto, la cantidad solicitada,
+ * las observaciones y la adición de queso dentro de una venta.
  */
 public class DetalleVentaRequest {
 
@@ -18,6 +18,16 @@ public class DetalleVentaRequest {
      * Cantidad de unidades solicitadas del producto.
      */
     private Integer cantidad;
+
+    /**
+     * Observaciones del producto (con queso, tomate, cebolla, mantequilla).
+     */
+    private ObservacionesRequest observaciones;
+
+    /**
+     * Adición de queso seleccionada (0 = sin adición, 2 = x2, 3 = x3, 4 = x4).
+     */
+    private Integer adicionQueso;
 
     /**
      * Obtiene el identificador del producto.
@@ -62,6 +72,52 @@ public class DetalleVentaRequest {
             Integer cantidad) {
 
         this.cantidad = cantidad;
+
+    }
+
+    /**
+     * Obtiene las observaciones del producto.
+     *
+     * @return observaciones del producto
+     */
+    public ObservacionesRequest getObservaciones() {
+
+        return observaciones;
+
+    }
+
+    /**
+     * Asigna las observaciones del producto.
+     *
+     * @param observaciones observaciones del producto
+     */
+    public void setObservaciones(
+            ObservacionesRequest observaciones) {
+
+        this.observaciones = observaciones;
+
+    }
+
+    /**
+     * Obtiene la adición de queso seleccionada.
+     *
+     * @return adición de queso (0, 2, 3 o 4)
+     */
+    public Integer getAdicionQueso() {
+
+        return adicionQueso;
+
+    }
+
+    /**
+     * Asigna la adición de queso seleccionada.
+     *
+     * @param adicionQueso adición de queso (0, 2, 3 o 4)
+     */
+    public void setAdicionQueso(
+            Integer adicionQueso) {
+
+        this.adicionQueso = adicionQueso;
 
     }
 

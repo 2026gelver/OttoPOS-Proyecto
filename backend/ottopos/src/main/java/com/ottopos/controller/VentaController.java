@@ -52,4 +52,20 @@ public class VentaController {
 
     }
 
+    /**
+     * Actualiza el estado de una venta existente.
+     *
+     * @param id     identificador de la venta
+     * @param estado nuevo estado del pedido
+     * @return venta actualizada
+     */
+    @PutMapping("/{id}/estado")
+    public Venta actualizarEstado(
+            @PathVariable Long id,
+            @RequestParam String estado) {
+
+        return ventaService.actualizarEstado(id, estado);
+
+    }
+
 }

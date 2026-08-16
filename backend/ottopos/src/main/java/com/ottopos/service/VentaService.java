@@ -101,6 +101,29 @@ public class VentaService {
                 request.getMetodoPago()
         );
 
+        // Asigna el nombre del usuario que realiza la venta.
+        venta.setUsuarioNombre(
+                request.getUsuarioNombre()
+        );
+
+        // Asigna el rol del usuario que realiza la venta.
+        venta.setUsuarioRol(
+                request.getUsuarioRol()
+        );
+
+        // Asigna el tipo de pedido (mesa o para llevar).
+        venta.setTipoPedido(
+                request.getTipoPedido()
+        );
+
+        // Asigna el número de mesa si aplica.
+        venta.setNumeroMesa(
+                request.getNumeroMesa()
+        );
+
+        // Asigna el estado por defecto "en_proceso".
+        venta.setEstado("en_proceso");
+
         // Inicializa el total de la venta.
         venta.setTotal(0.0);
 
@@ -170,10 +193,79 @@ public class VentaService {
                         producto.getPrecio()
                 );
 
+                // ==========================
+                // OBSERVACIONES
+                // ==========================
+
+                /*
+                 * Asigna las observaciones del producto
+                 * (con queso, tomate, cebolla, mantequilla).
+                 */
+                if (
+                        detalleRequest.getObservaciones()
+                                != null
+                ) {
+
+                    detalle.setConQueso(
+                            detalleRequest
+                                    .getObservaciones()
+                                    .getConQueso()
+                    );
+
+                    detalle.setConTomate(
+                            detalleRequest
+                                    .getObservaciones()
+                                    .getConTomate()
+                    );
+
+                    detalle.setConCebolla(
+                            detalleRequest
+                                    .getObservaciones()
+                                    .getConCebolla()
+                    );
+
+                    detalle.setConMantequilla(
+                            detalleRequest
+                                    .getObservaciones()
+                                    .getConMantequilla()
+                    );
+
+                }
+
+                // ==========================
+                // ADICIÓN DE QUESO
+                // ==========================
+
+                /*
+                 * Asigna la adición de queso seleccionada.
+                 * 0 = sin adición, 2 = x2, 3 = x3, 4 = x4.
+                 */
+                Integer adicionQueso =
+                        detalleRequest.getAdicionQueso();
+
+                if (adicionQueso == null) {
+
+                    adicionQueso = 0;
+
+                }
+
+                detalle.setAdicionQueso(adicionQueso);
+
                 // Calcula el subtotal del detalle.
                 double subtotal =
                         producto.getPrecio()
                                 * detalleRequest.getCantidad();
+
+                /*
+                 * Suma el recargo de la adición de queso.
+                 * x2 = +$2.000, x3 = +$3.000, x4 = +$4.000.
+                 */
+                if (adicionQueso > 0) {
+
+                    subtotal +=
+                            adicionQueso * 1000.0;
+
+                }
 
                 detalle.setSubtotal(subtotal);
 
@@ -255,6 +347,51 @@ public class VentaService {
          * por la base de datos MySQL.
          */
         return venta;
+
+    }
+
+    /**
+     * Actualiza el estado de una venta.
+     *
+     * @param id     identificador de la venta
+     * @param estado nuevo estado ("en_proceso", "entregado" o "cancelado")
+     * @return venta actualizada
+     * @throws RuntimeException si la venta no existe o el estado es inválido
+     */
+    public Venta actualizarEstado(
+            Long id,
+            String estado) {
+
+        Optional<Venta> ventaOpt =
+                ventaRepository.findById(id);
+
+        if (ventaOpt.isEmpty()) {
+
+            throw new RuntimeException(
+                    "Venta no encontrada. ID: " + id
+            );
+
+        }
+
+        if (
+                !estado.equals("en_proceso")
+                &&
+                !estado.equals("entregado")
+                &&
+                !estado.equals("cancelado")
+        ) {
+
+            throw new RuntimeException(
+                    "Estado inválido: " + estado
+            );
+
+        }
+
+        Venta venta = ventaOpt.get();
+
+        venta.setEstado(estado);
+
+        return ventaRepository.save(venta);
 
     }
 

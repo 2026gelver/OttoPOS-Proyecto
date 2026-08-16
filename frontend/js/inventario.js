@@ -99,6 +99,11 @@ const Inventario = {
 
         lista.innerHTML = "";
 
+        // Ordenar de mayor a menor precio.
+        this.items.sort(
+            (a, b) => b.precio - a.precio
+        );
+
         this.items.forEach(item => {
 
             const bajo =
@@ -115,7 +120,7 @@ const Inventario = {
                     src="${obtenerImagenProducto(item)}"
                     alt="${item.nombre}"
                     class="inv-imagen"
-                    onerror="this.src='img/logo.png'">
+                    onerror="imagenFallback(this, '${item.nombre}')">
 
                 <div style="flex:1;">
 

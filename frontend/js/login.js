@@ -271,14 +271,35 @@ const Login = {
           mostrar('ventas');
 
 
+        } else if (encontrado.rol === 'Caja') {
+
+
+          /**
+           * El cajero accede directamente
+           * al módulo de ventas, su única función.
+           */
+          document
+            .getElementById('titulo-ventas')
+            .textContent =
+            'Nueva Venta';
+
+
+          mostrar('ventas');
+
+
         } else {
 
 
           /**
            * Los usuarios administrativos y operativos
            * acceden al menú principal del sistema.
+           *
+           * El menú se filtra automáticamente
+           * según los permisos del rol.
            */
           mostrar('menu');
+
+          App.aplicarPermisosMenu();
 
         }
 

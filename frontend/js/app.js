@@ -24,6 +24,97 @@ const App = {
     },
 
     /**
+     * Mapa de permisos por rol.
+     *
+     * Define qué módulos puede acceder cada rol
+     * dentro del sistema OttoPOS.
+     */
+    permisos: {
+
+        Admin: [
+            "ventas",
+            "inventario",
+            "usuarios",
+            "reportes",
+            "pedidos"
+        ],
+
+        Operador: [
+            "ventas",
+            "inventario",
+            "reportes",
+            "pedidos"
+        ],
+
+        Caja: [
+            "ventas",
+            "pedidos"
+        ],
+
+        Cliente: [
+            "ventas"
+        ]
+
+    },
+
+    /**
+     * Verifica si el usuario actual tiene permiso
+     * para acceder a un módulo específico.
+     *
+     * @param {string} modulo identificador del módulo
+     * @returns {boolean} true si tiene permiso, false si no
+     */
+    puede(modulo) {
+
+        const usuario =
+            this.state.usuarioActual;
+
+        if (!usuario) return false;
+
+        const rol =
+            usuario.rol || "";
+
+        const permitidos =
+            this.permisos[rol] || [];
+
+        return permitidos.includes(modulo);
+
+    },
+
+    /**
+     * Aplica los permisos del usuario actual
+     * al menú principal, mostrando u ocultando
+     * las tarjetas según el rol.
+     */
+    aplicarPermisosMenu() {
+
+        const modulos = [
+            "ventas",
+            "inventario",
+            "usuarios",
+            "reportes",
+            "pedidos"
+        ];
+
+        modulos.forEach(modulo => {
+
+            const tarjeta =
+                document.getElementById(
+                    "menu-" + modulo
+                );
+
+            if (!tarjeta) return;
+
+            tarjeta.style.display =
+                this.puede(modulo)
+                    ? ""
+                    : "none";
+
+        });
+
+    },
+
+    /**
      * Inicializa la aplicación OttoPOS.
      *
      * Configura la navegación y carga los productos
@@ -101,10 +192,55 @@ App.navegacion = {
     /**
      * Cambia la pantalla activa de la aplicación.
      *
+     * Verifica que el usuario actual tenga permiso
+     * para acceder a la pantalla solicitada.
+     *
      * @param {string} pantalla identificador de la pantalla
      *                           que se desea mostrar
      */
     ir(pantalla) {
+
+        // ==========================
+        // CONTROL DE PERMISOS
+        // ==========================
+
+        /**
+         * Si el usuario no tiene permiso para
+         * acceder a la pantalla solicitada,
+         * se redirige a una pantalla permitida.
+         *
+         * El menú siempre está permitido
+         * para usuarios autenticados.
+         */
+        if (
+            pantalla !== "login" &&
+            pantalla !== "registro" &&
+            pantalla !== "menu" &&
+            !App.puede(pantalla)
+        ) {
+
+            const usuario =
+                App.state.usuarioActual;
+
+            if (usuario) {
+
+                // Redirige a ventas si tiene permiso,
+                // de lo contrario al menú.
+                App.navegacion.ir(
+                    App.puede("ventas")
+                        ? "ventas"
+                        : "menu"
+                );
+
+            } else {
+
+                App.navegacion.ir("login");
+
+            }
+
+            return;
+
+        }
 
         document
             .querySelectorAll(".pantalla")
@@ -124,6 +260,20 @@ App.navegacion = {
 
         window.scrollTo(0, 0);
 
+        // ==========================
+        // APLICAR PERMISOS AL MENÚ
+        // ==========================
+
+        /**
+         * Cuando se muestra el menú principal,
+         * se filtran las tarjetas según el rol.
+         */
+        if (pantalla === "menu") {
+
+            App.aplicarPermisosMenu();
+
+        }
+
         if (
             pantalla === "inventario" &&
             typeof Inventario !== "undefined"
@@ -139,6 +289,15 @@ App.navegacion = {
         ) {
 
             Ventas.cargarProductos();
+
+        }
+
+        if (
+            pantalla === "pedidos" &&
+            typeof Pedidos !== "undefined"
+        ) {
+
+            Pedidos.cargarPedidos();
 
         }
 
@@ -165,7 +324,6 @@ function mostrar(pantalla) {
     App.navegacion.ir(pantalla);
 
 }
-
 
 // ==========================
 // INICIAR APP

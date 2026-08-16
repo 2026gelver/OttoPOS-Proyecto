@@ -124,6 +124,43 @@ const Reportes = {
             }
 
 
+            if (periodo === 'anteriores') {
+
+                const partes =
+                    fechaVenta.split('-');
+
+
+                const anioVenta =
+                    Number(partes[0]);
+
+                const mesVenta =
+                    Number(partes[1]);
+
+
+                const anioActual =
+                    ahora.getFullYear();
+
+                const mesActual =
+                    ahora.getMonth() + 1;
+
+
+                return anioVenta < anioActual
+
+                    ||
+
+                    (
+
+                        anioVenta === anioActual
+
+                        &&
+
+                        mesVenta < mesActual
+
+                    );
+
+            }
+
+
             return true;
 
         });
@@ -259,6 +296,37 @@ const Reportes = {
 
 
     // ==========================
+    // NORMALIZAR ROL
+    // ==========================
+    _normalizarRol(rol) {
+
+        const mapa = {
+
+            admin: 'Administrador',
+
+            administrador: 'Administrador',
+
+            cliente: 'Cliente',
+
+            operador: 'Operador',
+
+            caja: 'Caja'
+
+        };
+
+
+        const clave =
+            String(rol || '')
+                .toLowerCase()
+                .trim();
+
+
+        return mapa[clave] || 'Sistema';
+
+    },
+
+
+    // ==========================
     // DESCARGAR EXCEL
     // ==========================
     descargarExcel(periodo = this.periodoActual) {
@@ -284,7 +352,9 @@ const Reportes = {
 
             semana: '7_dias',
 
-            mes: 'Este_mes'
+            mes: 'Este_mes',
+
+            anteriores: 'Meses_anteriores'
 
         }[periodo];
 
@@ -305,6 +375,14 @@ const Reportes = {
             'Hora':
                 this._formatearHora(
                     venta.fecha
+                ),
+
+            'Usuario':
+                venta.usuarioNombre || 'Sistema',
+
+            'ROL':
+                this._normalizarRol(
+                    venta.usuarioRol
                 ),
 
             'Método de pago':
@@ -498,7 +576,9 @@ const Reportes = {
 
             semana: 'Últimos 7 días',
 
-            mes: 'Este mes'
+            mes: 'Este mes',
+
+            anteriores: 'Meses anteriores'
 
         }[periodo];
 

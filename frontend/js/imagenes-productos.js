@@ -27,6 +27,26 @@ const IMAGENES_PRODUCTOS = {
 };
 
 /**
+ * Obtiene la imagen mapeada según el nombre
+ * de un producto.
+ *
+ * @param {string} nombre nombre del producto
+ * @returns {string} ruta de la imagen mapeada
+ *                   o el logo por defecto
+ */
+function obtenerImagenPorNombre(nombre) {
+
+    const clave =
+        (nombre || "")
+            .toLowerCase()
+            .trim();
+
+    return IMAGENES_PRODUCTOS[clave]
+        || "img/logo.png";
+
+}
+
+/**
  * Obtiene la imagen de un producto.
  *
  * Prioridad:
@@ -48,12 +68,43 @@ function obtenerImagenProducto(producto) {
 
     }
 
-    const nombre =
-        (producto.nombre || "")
-            .toLowerCase()
-            .trim();
+    return obtenerImagenPorNombre(
+        producto.nombre
+    );
 
-    return IMAGENES_PRODUCTOS[nombre]
-        || "img/logo.png";
+}
+
+/**
+ * Maneja el error de carga de una imagen
+ * en la interfaz.
+ *
+ * Intenta mostrar primero la imagen mapeada
+ * según el nombre del producto. Si ya se está
+ * mostrando esa imagen o el logo, se queda
+ * con el logo por defecto.
+ *
+ * @param {HTMLImageElement} imagen elemento img
+ * @param {string} nombre nombre del producto
+ */
+function imagenFallback(imagen, nombre) {
+
+    const imagenNombre =
+        obtenerImagenPorNombre(nombre);
+
+    const actual =
+        imagen.getAttribute("src");
+
+    if (
+        actual === imagenNombre
+        || actual === "img/logo.png"
+    ) {
+
+        imagen.src = "img/logo.png";
+
+        return;
+
+    }
+
+    imagen.src = imagenNombre;
 
 }

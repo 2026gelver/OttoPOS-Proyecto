@@ -8,8 +8,9 @@ import com.ottopos.model.Producto;
  * Entidad que representa el detalle de una venta
  * realizada en el sistema OttoPOS.
  *
- * Esta clase almacena la cantidad, el precio y el subtotal
- * de un producto asociado a una venta.
+ * Esta clase almacena la cantidad, el precio, el subtotal,
+ * las observaciones y la adición de queso de un producto
+ * asociado a una venta.
  */
 @Entity
 @Table(name = "detalle_venta")
@@ -36,6 +37,31 @@ public class DetalleVenta {
      * Valor total del detalle de venta.
      */
     private Double subtotal;
+
+    /**
+     * Indica si el producto lleva queso.
+     */
+    private Boolean conQueso;
+
+    /**
+     * Indica si el producto lleva tomate.
+     */
+    private Boolean conTomate;
+
+    /**
+     * Indica si el producto lleva cebolla.
+     */
+    private Boolean conCebolla;
+
+    /**
+     * Indica si el producto lleva mantequilla.
+     */
+    private Boolean conMantequilla;
+
+    /**
+     * Adición de queso seleccionada (0 = sin adición, 2 = x2, 3 = x3, 4 = x4).
+     */
+    private Integer adicionQueso;
 
     /**
      * Venta a la que pertenece este detalle.
@@ -132,6 +158,121 @@ public class DetalleVenta {
             Double subtotal) {
 
         this.subtotal = subtotal;
+
+    }
+
+    /**
+     * Obtiene si el producto lleva queso.
+     *
+     * @return true si lleva queso, false si no
+     */
+    public Boolean getConQueso() {
+
+        return conQueso;
+
+    }
+
+    /**
+     * Asigna si el producto lleva queso.
+     *
+     * @param conQueso true si lleva queso, false si no
+     */
+    public void setConQueso(
+            Boolean conQueso) {
+
+        this.conQueso = conQueso;
+
+    }
+
+    /**
+     * Obtiene si el producto lleva tomate.
+     *
+     * @return true si lleva tomate, false si no
+     */
+    public Boolean getConTomate() {
+
+        return conTomate;
+
+    }
+
+    /**
+     * Asigna si el producto lleva tomate.
+     *
+     * @param conTomate true si lleva tomate, false si no
+     */
+    public void setConTomate(
+            Boolean conTomate) {
+
+        this.conTomate = conTomate;
+
+    }
+
+    /**
+     * Obtiene si el producto lleva cebolla.
+     *
+     * @return true si lleva cebolla, false si no
+     */
+    public Boolean getConCebolla() {
+
+        return conCebolla;
+
+    }
+
+    /**
+     * Asigna si el producto lleva cebolla.
+     *
+     * @param conCebolla true si lleva cebolla, false si no
+     */
+    public void setConCebolla(
+            Boolean conCebolla) {
+
+        this.conCebolla = conCebolla;
+
+    }
+
+    /**
+     * Obtiene si el producto lleva mantequilla.
+     *
+     * @return true si lleva mantequilla, false si no
+     */
+    public Boolean getConMantequilla() {
+
+        return conMantequilla;
+
+    }
+
+    /**
+     * Asigna si el producto lleva mantequilla.
+     *
+     * @param conMantequilla true si lleva mantequilla, false si no
+     */
+    public void setConMantequilla(
+            Boolean conMantequilla) {
+
+        this.conMantequilla = conMantequilla;
+
+    }
+
+    /**
+     * Obtiene la adición de queso seleccionada.
+     *
+     * @return adición de queso (0, 2, 3 o 4)
+     */
+    public Integer getAdicionQueso() {
+
+        return adicionQueso;
+
+    }
+
+    /**
+     * Asigna la adición de queso seleccionada.
+     *
+     * @param adicionQueso adición de queso (0, 2, 3 o 4)
+     */
+    public void setAdicionQueso(
+            Integer adicionQueso) {
+
+        this.adicionQueso = adicionQueso;
 
     }
 

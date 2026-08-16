@@ -135,28 +135,34 @@
 
     <div class="menu-grid">
 
-      <div class="menu-card"
+      <div class="menu-card" id="menu-ventas"
            onclick="mostrar('ventas'); Ventas.cargarProductos();">
         <div class="menu-card-icon">🧾</div>
         <div class="menu-card-label">Ventas</div>
       </div>
 
-      <div class="menu-card"
+      <div class="menu-card" id="menu-inventario"
            onclick="mostrar('inventario'); Inventario.cargarProductos();">
         <div class="menu-card-icon">📦</div>
         <div class="menu-card-label">Inventario</div>
       </div>
 
-      <div class="menu-card"
+      <div class="menu-card" id="menu-usuarios"
            onclick="mostrar('usuarios'); Usuarios.cargarUsuarios();">
         <div class="menu-card-icon">👥</div>
         <div class="menu-card-label">Usuarios</div>
       </div>
 
-      <div class="menu-card"
+      <div class="menu-card" id="menu-reportes"
            onclick="mostrar('reportes'); Reportes.cargarVentas();">
         <div class="menu-card-icon">📈</div>
         <div class="menu-card-label">Reportes</div>
+      </div>
+
+      <div class="menu-card" id="menu-pedidos"
+           onclick="mostrar('pedidos'); Pedidos.cargarPedidos();">
+        <div class="menu-card-icon">📋</div>
+        <div class="menu-card-label">Pedidos</div>
       </div>
 
       <div class="menu-card salir"
@@ -172,20 +178,47 @@
   <!-- ===== VENTAS ===== -->
   <div id="ventas" class="pantalla">
     <div class="pantalla-body">
-      <h2 id="titulo-ventas">Nueva Venta</h2>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h2 id="titulo-ventas" style="margin:0;">Nueva Venta</h2>
+        <button class="btn btn-outline btn-sm" onclick="Ventas.volver()" title="Volver">
+          ←
+        </button>
+      </div>
 
-      <h3>Productos</h3>
+      <!-- ===== TIPO DE PEDIDO ===== -->
+      <div class="tipo-pedido-seccion">
+        <div class="tipo-pedido-titulo">🏷️ Tipo de Pedido</div>
+        <div class="tipo-pedido-btns">
+          <button class="btn tipo-pedido-btn" id="btn-tipo-mesa" onclick="Ventas.seleccionarTipoPedido('mesa')">
+            🍽️ Mesa
+          </button>
+          <button class="btn tipo-pedido-btn activo" id="btn-tipo-llevar" onclick="Ventas.seleccionarTipoPedido('llevar')">
+            🛍️ Para llevar
+          </button>
+        </div>
+        <div class="input-group" id="mesa-input-group" style="display:none;">
+          <label for="numero-mesa">Número de Mesa</label>
+          <input type="number" id="numero-mesa" min="1" placeholder="Ej: 3">
+        </div>
+      </div>
 
-<div id="catalogo-productos">
+      <!-- ===== SECCIÓN AREPAS ===== -->
+      <h3 class="seccion-titulo">🥙 Arepas</h3>
+      <div id="seccion-arepas" class="seccion-productos">
+        <!-- Las arepas se cargan automáticamente desde Spring Boot -->
+      </div>
 
-    <!-- Los productos se cargan automáticamente desde Spring Boot -->
-
-</div>
+      <!-- ===== SECCIÓN BEBIDAS ===== -->
+      <h3 class="seccion-titulo">🥤 Bebidas</h3>
+      <div id="seccion-bebidas" class="seccion-productos">
+        <!-- Las bebidas se cargan automáticamente desde Spring Boot -->
+      </div>
 
       <button class="btn btn-secondary" onclick="Ventas.agregarAlPedido()" style="margin-top:16px;">
         ➕ Agregar al pedido
       </button>
 
+      <!-- ===== PEDIDO ACTUAL ===== -->
       <h3>📋 Pedido actual</h3>
       <ul class="lista-pedido" id="listaVentas"></ul>
 
@@ -194,13 +227,30 @@
         <span class="total-valor" id="total-valor">$0</span>
       </div>
 
+      <!-- ===== BOTONES DE CLIENTES ===== -->
+      <div class="clientes-btns" id="clientes-btns">
+        <button class="btn btn-secondary" onclick="Ventas.crearPedidoCliente()" id="btn-crear-cliente">
+          ➕ Crear Pedido Cliente 1
+        </button>
+      </div>
+
+      <!-- ===== PEDIDOS GUARDADOS ===== -->
+      <h3>📦 Pedidos guardados</h3>
+      <div id="pedidos-guardados" class="pedidos-guardados">
+        <!-- Los pedidos guardados se renderizan aquí -->
+      </div>
+
       <button class="btn btn-primary" onclick="Ventas.confirmarVenta()">
         ✅ Confirmar Pedido
       </button>
 
       <!-- Sección de pago -->
       <div class="pago-section" id="pago-section">
-        <h3 style="margin-top:0;">💳 Medio de Pago</h3>
+        <h3 style="margin-top:0;">📋 Resumen de la Venta</h3>
+        <div id="resumen-venta" class="resumen-venta">
+          <!-- El resumen se renderiza aquí -->
+        </div>
+        <h3>💳 Medio de Pago</h3>
         <div class="pago-btns">
           <button class="btn btn-primary" onclick="Ventas.generarFactura('Efectivo')">
             💵 Efectivo
@@ -220,7 +270,12 @@
   <!-- ===== INVENTARIO ===== -->
   <div id="inventario" class="pantalla">
     <div class="pantalla-body">
-      <h2>Inventario</h2>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h2 style="margin:0;">Inventario</h2>
+        <button class="btn btn-outline btn-sm" onclick="mostrar('menu')" title="Volver">
+          ←
+        </button>
+      </div>
 
       <div class="msg-error" id="inv-alerta" style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;border:1px solid #FCD34D;"></div>
 
@@ -285,7 +340,12 @@
 <div id="usuarios" class="pantalla">
   <div class="pantalla-body">
 
-    <h2>Gestión de Usuarios</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <h2 style="margin:0;">Gestión de Usuarios</h2>
+      <button class="btn btn-outline btn-sm" onclick="mostrar('menu')" title="Volver">
+        ←
+      </button>
+    </div>
 
     <div class="input-group">
       <label>Nombre Completo</label>
@@ -308,6 +368,7 @@
       <select id="usr-rol">
         <option value="Operador">Operador</option>
         <option value="Caja">Caja</option>
+        <option value="Cliente">Cliente</option>
       </select>
     </div>
 
@@ -351,15 +412,55 @@
   <!-- ===== REPORTES ===== -->
   <div id="reportes" class="pantalla">
     <div class="pantalla-body">
-      <h2>📈 Reportes</h2>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h2 style="margin:0;">📈 Reportes</h2>
+        <button class="btn btn-outline btn-sm" onclick="mostrar('menu')" title="Volver">
+          ←
+        </button>
+      </div>
 
       <div class="tabs">
         <button id="tab-hoy"    class="tab-btn activo" onclick="Reportes.renderizar('hoy')">Hoy</button>
         <button id="tab-semana" class="tab-btn"        onclick="Reportes.renderizar('semana')">7 días</button>
         <button id="tab-mes"    class="tab-btn"        onclick="Reportes.renderizar('mes')">Este mes</button>
+        <button id="tab-anteriores" class="tab-btn"    onclick="Reportes.renderizar('anteriores')">Meses anteriores</button>
       </div>
 
       <div id="reporte-contenido">
+        <!-- Renderizado por JS -->
+      </div>
+
+      <button class="btn btn-outline" onclick="mostrar('menu')" style="margin-top:16px;">
+        ← Volver al Menú
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== PEDIDOS ===== -->
+  <div id="pedidos" class="pantalla">
+    <div class="pantalla-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h2 style="margin:0;">📋 Pedidos</h2>
+        <button class="btn btn-outline btn-sm" onclick="mostrar('menu')" title="Volver">
+          ←
+        </button>
+      </div>
+
+      <button class="btn btn-secondary" onclick="Pedidos.cargarPedidos()" style="margin-top:8px;">
+        🔄 Actualizar Pedidos
+      </button>
+
+      <div class="input-group" style="margin-top:12px;">
+        <label for="filtro-estado">Filtrar por estado</label>
+        <select id="filtro-estado" onchange="Pedidos.filtrarPorEstado(this.value)">
+          <option value="todos">Todos</option>
+          <option value="en_proceso">🟠 En proceso</option>
+          <option value="entregado">🟢 Entregado</option>
+          <option value="cancelado">🔴 Cancelado</option>
+        </select>
+      </div>
+
+      <div id="lista-pedidos" class="pedidos-lista">
         <!-- Renderizado por JS -->
       </div>
 
@@ -378,8 +479,7 @@
     <div style="text-align:center;margin-bottom:12px;">
       <img src="img/logo.png" alt="Logo" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #F4C542;">
     </div>
-    <div id="factura-contenido"></div>
-    <div style="display:flex;gap:10px;margin-top:16px;">
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
       <button class="btn btn-secondary" onclick="Ventas.imprimirFactura()" style="flex:1;">
         🖨️ Imprimir
       </button>
@@ -387,6 +487,7 @@
         ✕ Cerrar
       </button>
     </div>
+    <div id="factura-contenido"></div>
   </div>
 </div>
 
@@ -420,6 +521,8 @@
 
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script src="js/reportes.js"></script>
+
+<script src="js/pedidos.js"></script>
 
 <script src="js/mapa.js"></script>
 <script>inicializarMapa();</script>
