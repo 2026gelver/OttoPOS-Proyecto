@@ -10,6 +10,7 @@ import com.ottopos.repository.ProductoRepository;
 import com.ottopos.repository.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -353,11 +354,16 @@ public class VentaService {
     /**
      * Actualiza el estado de una venta.
      *
+     * Cuando una venta se cancela, las cantidades de los productos
+     * vendidos se devuelven al inventario (stock). Si una venta
+     * cancelada se reactiva, las cantidades se descuentan nuevamente.
+     *
      * @param id     identificador de la venta
      * @param estado nuevo estado ("en_proceso", "entregado" o "cancelado")
      * @return venta actualizada
      * @throws RuntimeException si la venta no existe o el estado es inválido
      */
+    @Transactional
     public Venta actualizarEstado(
             Long id,
             String estado) {
@@ -389,9 +395,147 @@ public class VentaService {
 
         Venta venta = ventaOpt.get();
 
+        String estadoAnterior =
+                venta.getEstado();
+
+        // Si ya se encuentra en el mismo estado, no hacer nada adicional.
+        if (estadoAnterior != null
+                && estadoAnterior.equals(estado)) {
+
+            return venta;
+
+        }
+
+        // ==========================
+        // AJUSTAR STOCK SEGÚN ESTADO
+        // ==========================
+
+        /*
+         * Si la venta se cancela, devolver las cantidades
+         * vendidas al inventario.
+         *
+         * Si la venta era cancelada y se reactiva, volver
+         * a descontar las cantidades del inventario.
+         */
+        if (estado.equals("cancelado")) {
+
+            // Cancelar: devolver stock.
+            devolverStock(venta);
+
+        } else if (
+                "cancelado".equals(estadoAnterior)
+        ) {
+
+            // Reactivar: volver a descontar stock.
+            descontarStock(venta);
+
+        }
+
         venta.setEstado(estado);
 
         return ventaRepository.save(venta);
+
+    }
+
+    /**
+     * Devuelve al inventario las cantidades de los productos
+     * asociados a una venta cancelada.
+     *
+     * @param venta venta que se está cancelando
+     */
+    private void devolverStock(Venta venta) {
+
+        List<DetalleVenta> detalles =
+                venta.getDetalles();
+
+        if (detalles == null) return;
+
+        for (DetalleVenta detalle : detalles) {
+
+            if (detalle.getProducto() == null) continue;
+
+            Producto producto =
+                    detalle.getProducto();
+
+            int cantidad =
+                    detalle.getCantidad() != null
+                            ? detalle.getCantidad()
+                            : 0;
+
+            if (cantidad <= 0) continue;
+
+            producto.setStock(
+                    producto.getStock() + cantidad
+            );
+
+            productoRepository.save(producto);
+
+            System.out.println(
+                    "Stock restaurado: "
+                            + producto.getNombre()
+                            + " (+"
+                            + cantidad
+                            + ") -> "
+                            + producto.getStock()
+            );
+
+        }
+
+    }
+
+    /**
+     * Descuenta del inventario las cantidades de los productos
+     * asociados a una venta que se reactiva (de cancelada
+     * a en_proceso o entregado).
+     *
+     * @param venta venta que se está reactivando
+     */
+    private void descontarStock(Venta venta) {
+
+        List<DetalleVenta> detalles =
+                venta.getDetalles();
+
+        if (detalles == null) return;
+
+        for (DetalleVenta detalle : detalles) {
+
+            if (detalle.getProducto() == null) continue;
+
+            Producto producto =
+                    detalle.getProducto();
+
+            int cantidad =
+                    detalle.getCantidad() != null
+                            ? detalle.getCantidad()
+                            : 0;
+
+            if (cantidad <= 0) continue;
+
+            if (producto.getStock() < cantidad) {
+
+                throw new RuntimeException(
+                        "Stock insuficiente para reactivar la venta: "
+                                + producto.getNombre()
+                );
+
+            }
+
+            producto.setStock(
+                    producto.getStock() - cantidad
+            );
+
+            productoRepository.save(producto);
+
+            System.out.println(
+                    "Stock descontado: "
+                            + producto.getNombre()
+                            + " (-"
+                            + cantidad
+                            + ") -> "
+                            + producto.getStock()
+            );
+
+        }
 
     }
 

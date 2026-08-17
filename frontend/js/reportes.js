@@ -173,8 +173,21 @@ const Reportes = {
     // ==========================
     _stats(lista) {
 
+        // Las ventas canceladas no generan ingresos.
+        const ventasValidas =
+            lista.filter(
+                venta =>
+                    venta.estado !== 'cancelado'
+            );
+
+        const ventasCanceladas =
+            lista.filter(
+                venta =>
+                    venta.estado === 'cancelado'
+            );
+
         const totalPesos =
-            lista.reduce(
+            ventasValidas.reduce(
 
                 (total, venta) =>
                     total + Number(venta.total || 0),
@@ -185,13 +198,24 @@ const Reportes = {
 
 
         const totalVentas =
-            lista.length;
+            ventasValidas.length;
+
+
+        const totalCancelado =
+            ventasCanceladas.reduce(
+
+                (total, venta) =>
+                    total + Number(venta.total || 0),
+
+                0
+
+            );
 
 
         const porProducto = {};
 
 
-        lista.forEach(venta => {
+        ventasValidas.forEach(venta => {
 
             if (!venta.detalles) return;
 
@@ -251,7 +275,7 @@ const Reportes = {
         const porMetodo = {};
 
 
-        lista.forEach(venta => {
+        ventasValidas.forEach(venta => {
 
             const metodo =
                 venta.metodoPago || 'Otro';
@@ -269,6 +293,10 @@ const Reportes = {
             totalPesos,
 
             totalVentas,
+
+            canceladas: ventasCanceladas.length,
+
+            canceladasTotal: totalCancelado,
 
             ranking,
 
@@ -322,6 +350,31 @@ const Reportes = {
 
 
         return mapa[clave] || 'Sistema';
+
+    },
+
+
+    // ==========================
+    // TEXTO DE ESTADO
+    // ==========================
+    _estadoTexto(estado) {
+
+        const mapa = {
+
+            en_proceso: 'En proceso',
+
+            entregado: 'Entregado',
+
+            cancelado: 'Cancelada'
+
+        };
+
+
+        const clave =
+            String(estado || 'en_proceso');
+
+
+        return mapa[clave] || 'En proceso';
 
     },
 
@@ -387,6 +440,11 @@ const Reportes = {
 
             'Método de pago':
                 venta.metodoPago,
+
+            'Estado':
+                this._estadoTexto(
+                    venta.estado
+                ),
 
             'Total':
                 Number(venta.total || 0)
@@ -467,6 +525,26 @@ const Reportes = {
 
                 'Valor':
                     stats.porMetodo.Transferencia || 0
+
+            },
+
+            {
+
+                'Concepto':
+                    'Total cancelado',
+
+                'Valor':
+                    stats.canceladasTotal || 0
+
+            },
+
+            {
+
+                'Concepto':
+                    'Ventas canceladas',
+
+                'Valor':
+                    stats.canceladas || 0
 
             }
 
@@ -629,6 +707,23 @@ const Reportes = {
                     <div class="reporte-card-label">
 
                         🧾 Ventas realizadas
+
+                    </div>
+
+                </div>
+
+
+                <div class="reporte-card">
+
+                    <div class="reporte-card-valor" style="color:var(--error);">
+
+                        ${stats.canceladas}
+
+                    </div>
+
+                    <div class="reporte-card-label">
+
+                        🔴 Canceladas
 
                     </div>
 
@@ -873,6 +968,28 @@ const Reportes = {
                         );
 
 
+                    const estado =
+                        venta.estado || 'en_proceso';
+
+                    let estadoTexto = '🟠 En proceso';
+                    let estadoColor = '#9A3412';
+                    let estadoBg = '#FED7AA';
+
+                    if (estado === 'entregado') {
+
+                        estadoTexto = '🟢 Entregado';
+                        estadoColor = '#166534';
+                        estadoBg = '#BBF7D0';
+
+                    } else if (estado === 'cancelado') {
+
+                        estadoTexto = '🔴 Cancelada';
+                        estadoColor = '#B91C1C';
+                        estadoBg = '#FECACA';
+
+                    }
+
+
                     html += `
 
                         <div class="historial-item">
@@ -895,9 +1012,20 @@ const Reportes = {
 
                             </div>
 
-                            <div style="font-weight:700;color:var(--cafe);">
+                            <div style="display:flex;align-items:center;gap:8px;">
 
-                                $${Number(venta.total).toLocaleString('es-CO')}
+                                <span
+                                    style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:${estadoBg};color:${estadoColor};white-space:nowrap;">
+
+                                    ${estadoTexto}
+
+                                </span>
+
+                                <div style="font-weight:700;color:var(--cafe);">
+
+                                    $${Number(venta.total).toLocaleString('es-CO')}
+
+                                </div>
 
                             </div>
 
