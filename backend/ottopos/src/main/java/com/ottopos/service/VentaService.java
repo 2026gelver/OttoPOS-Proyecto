@@ -369,7 +369,7 @@ public class VentaService {
             String estado) {
 
         Optional<Venta> ventaOpt =
-                ventaRepository.findById(id);
+                ventaRepository.findByIdWithDetalles(id);
 
         if (ventaOpt.isEmpty()) {
 
