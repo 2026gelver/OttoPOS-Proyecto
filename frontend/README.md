@@ -65,6 +65,23 @@ OttoPOS-Proyecto/
 3. Abrir el frontend desde Visual Studio Code.
 4. Ejecutar `index.html` con Live Server.
 
+## 🚀 Despliegue en línea (gratuito)
+
+El proyecto se publica con tres servicios sin costo:
+
+| Servicio | Función |
+|---|---|
+| **GitHub Pages** | Aloja el frontend (`https://2026gelver.github.io/OttoPOS-Proyecto/`) |
+| **Render (Free)** | Ejecuta el backend Spring Boot (API REST) |
+| **Aiven MySQL Free** | Base de datos en la nube |
+
+La carpeta [`deploy/`](../deploy/GUIA-DEPLOY.md) contiene la guía paso a paso:
+crear la BD en Aiven, desplegar el backend en Render y activar GitHub Pages.
+El flujo automático está en [`.github/workflows/pages.yml`](../.github/workflows/pages.yml).
+
+> ⚠️ Plan gratuito de Render: el servicio se duerme a los 15 min de inactividad
+> (la primera petición tarda ~50 s en despertar). Ideal para demostración.
+
 ## 👨‍💻 Autor
 
 **Gelver Rodríguez**

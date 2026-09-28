@@ -10,7 +10,7 @@ const Usuarios = {
 
         try {
 
-            const respuesta = await fetch('http://localhost:8081/api/usuarios');
+            const respuesta = await fetch(`${CONFIG.API_URL}/usuarios`);
 
             if (!respuesta.ok) {
                 throw new Error('Error al consultar usuarios');
@@ -150,7 +150,7 @@ const Usuarios = {
 
         try {
 
-            let url = 'http://localhost:8081/api/usuarios';
+            let url = `${CONFIG.API_URL}/usuarios`;
 
             let metodo = 'POST';
 
@@ -247,7 +247,7 @@ const Usuarios = {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:8081/api/usuarios/' + id,
+                `${CONFIG.API_URL}/usuarios/` + id,
                 {
                     method: 'DELETE'
                 }

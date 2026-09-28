@@ -17,7 +17,7 @@ const Reportes = {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:8081/api/ventas'
+                `${CONFIG.API_URL}/ventas`
             );
 
             if (!respuesta.ok) {
