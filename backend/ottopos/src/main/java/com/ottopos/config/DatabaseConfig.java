@@ -1,5 +1,6 @@
 package com.ottopos.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -20,8 +20,9 @@ import javax.sql.DataSource;
  * errores por caracteres invisibles (espacios o saltos de línea) que se
  * cuelan al pegar las variables en Render o en un archivo .env.
  *
- * Si se define {@code SPRING_DATASOURCE_URL}, esta tiene prioridad
- * (compatibilidad con el método anterior).
+ * La variable obsoleta {@code SPRING_DATASOURCE_URL} YA NO se utiliza:
+ * la conexión siempre se construye con las variables cortas. Si sigue
+ * definida en el entorno, solo se registra una advertencia en el log.
  *
  * La clase se desactiva con el perfil "test" para que las pruebas
  * automatizadas sigan usando H2 en memoria.
@@ -37,7 +38,10 @@ public class DatabaseConfig {
             LoggerFactory.getLogger(DatabaseConfig.class);
 
     /**
-     * URL completa opcional (método antiguo, tiene prioridad).
+     * URL completa antigua (OBSOLETA).
+     *
+     * Ya no se utiliza para conectar: solo se lee para avisar
+     * en el log si sigue definida en Render y puede eliminarse.
      */
     @Value("${SPRING_DATASOURCE_URL:}")
     private String urlCompleta;
@@ -81,28 +85,39 @@ public class DatabaseConfig {
     @Primary
     public DataSource dataSource() {
 
+        String urlAntigua = limpiar(urlCompleta);
+
+        if (!urlAntigua.isEmpty()) {
+
+            log.warn(
+                    "⚠️ SPRING_DATASOURCE_URL sigue definida pero YA NO se usa: "
+                            + "la conexión se construye con DB_HOST/DB_PORT/DB_NAME/DB_USER/DB_PASS. "
+                            + "Puedes eliminarla en Render."
+            );
+
+        }
+
         String host = limpiar(dbHost);
         String port = limpiar(dbPort);
         String nombre = limpiar(dbName);
         String usuario = limpiar(dbUser);
         String password = limpiar(dbPass);
-        String urlSobrescrita = limpiar(urlCompleta);
 
-        // Si no hay URL completa definida, se construye con los valores
-        // limpios de las variables cortas.
-        String url = urlSobrescrita.isBlank()
-                ? "jdbc:mysql://" + host + ":" + port
-                        + "/" + nombre + "?ssl-mode=REQUIRED"
-                : urlSobrescrita;
+        // La URL siempre se construye con las variables cortas.
+        String url = "jdbc:mysql://" + host + ":" + port
+                + "/" + nombre + "?ssl-mode=REQUIRED";
 
-        DriverManagerDataSource dataSource =
-                new DriverManagerDataSource();
+        // Red de seguridad: elimina cualquier espacio o salto de línea
+        // invisible que se cuele dentro de los valores pegados.
+        url = url.replaceAll("\\s+", "");
+
+        HikariDataSource dataSource = new HikariDataSource();
 
         dataSource.setDriverClassName(
                 "com.mysql.cj.jdbc.Driver"
         );
 
-        dataSource.setUrl(url);
+        dataSource.setJdbcUrl(url);
 
         dataSource.setUsername(usuario);
 
