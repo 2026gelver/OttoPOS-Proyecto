@@ -156,6 +156,56 @@ const API = {
 
 
     /**
+     * Autentica a un cliente registrado en el sistema
+     * mediante su nombre de usuario (o correo) y contraseña.
+     *
+     * La validación se realiza en el servidor y la respuesta
+     * nunca incluye la contraseña del usuario.
+     *
+     * @param {string} usuario nombre de usuario o correo
+     * @param {string} clave   contraseña del cliente
+     * @returns {Promise<Object>} usuario autenticado
+     * @throws {Error} si las credenciales son incorrectas
+     */
+    async iniciarSesion(usuario, clave) {
+
+        const respuesta = await fetch(
+
+            `${CONFIG.API_URL}/auth/login`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+                    usuario: usuario,
+                    clave: clave
+                })
+
+            }
+
+        );
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "Usuario o contraseña incorrectos"
+            );
+
+        }
+
+        return await respuesta.json();
+
+    },
+
+
+    /**
      * Autentica a un usuario utilizando
      * el ID token de Google.
      *

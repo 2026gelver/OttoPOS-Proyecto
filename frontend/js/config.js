@@ -13,10 +13,9 @@ const CONFIG = {
      * URL base de la API de producción (hosting en Render).
      * Se usa cuando la app se sirve desde Internet
      * (GitHub Pages o dominio propio).
-     * IMPORTANTE: reemplaza <TU-API> por la URL real
-     * que obtendrás al crear el Web Service en Render.
+     * Corresponde al Web Service "ottopos-api" de Render.
      */
-    API_PRODUCCION: "https://<TU-API>.onrender.com/api",
+    API_PRODUCCION: "https://ottopos-api.onrender.com/api",
 
     /**
      * URL base utilizada para realizar
@@ -29,6 +28,6 @@ const CONFIG = {
             || window.location.hostname === "127.0.0.1"
             || window.location.protocol === "file:")
             ? "http://localhost:8081/api"
-            : "https://<TU-API>.onrender.com/api"
+            : "https://ottopos-api.onrender.com/api"
 
 };

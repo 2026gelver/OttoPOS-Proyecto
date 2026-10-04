@@ -65,10 +65,17 @@ SPRING_DATASOURCE_PASSWORD=TU_CONTRASENA
 3. La web queda en: **https://2026gelver.github.io/OttoPOS-Proyecto/**
 
 **Conectar el frontend con tu API:**
-- Abre `frontend/js/config.js` y reemplaza `<TU-API>` por el nombre de tu
-  servicio de Render (ej. `ottopos-api`), quedando
+- Si creaste el servicio de Render con el nombre `ottopos-api` (como indica el
+  Paso 2), **no necesitas cambiar nada**: `frontend/js/config.js` ya apunta a
   `https://ottopos-api.onrender.com/api`.
-- Haz push: el flujo redespiega automáticamente.
+- Si le pusiste otro nombre, abre `frontend/js/config.js` y reemplaza
+  `ottopos-api` por el nombre de tu servicio de Render.
+- Haz push: el flujo redespliega automáticamente.
+
+> **CORS:** la API solo acepta peticiones desde GitHub Pages
+> (`https://2026gelver.github.io`) y orígenes locales por defecto. Cuando uses
+> un **dominio propio**, agrégalo en Render como variable de entorno:
+> `CORS_ALLOWED_ORIGINS=https://tudominio.com,https://2026gelver.github.io`.
 
 ---
 
@@ -77,11 +84,19 @@ SPRING_DATASOURCE_PASSWORD=TU_CONTRASENA
 Para que el botón "Continuar con Google" funcione en la web pública:
 
 1. Entra a https://console.cloud.google.com → Crea/Abre el proyecto.
-2. **APIs y servicios** → **Pantalla de consentimiento** → verifica dominio.
-3. **Credenciales** → OAuth 2.0 → edita el cliente usado en `index.html`.
-4. En **URIs de redireccionamiento autorizados** añade:
-   - `https://2026gelver.github.io/OttoPOS-Proyecto/`
-   - `https://ottopos-api.onrender.com/`
+2. **APIs y servicios** → **Pantalla de consentimiento** → verifica dominio
+   (opcional, solo si tu app quedará publicada con dominio propio).
+3. **Credenciales** → OAuth 2.0 → edita el cliente usado en `index.html`
+   (debe ser de tipo **Aplicación web**).
+4. En **Orígenes de JavaScript autorizados** (Authorized JavaScript origins)
+   añade las URL públicas del frontend:
+   - `https://2026gelver.github.io`   (GitHub Pages)
+   - `https://tudominio.com`          (si usarás dominio propio)
+   
+   > ⚠️ IMPORTANTE: para Google Sign-In (GSI) lo que se configura son los
+   > **orígenes de JavaScript autorizados**, no las "URIs de redireccionamiento".
+   > El backend valida el token en `POST /api/auth/google`, así que no necesita
+   > URI de redirección.
 5. Guarda. (La URL pública del frontend y de la API.)
 
 ---

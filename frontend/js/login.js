@@ -141,40 +141,17 @@ const Login = {
 
       try {
 
-        const usuariosBD =
-          await API.obtenerUsuarios();
-
-
         /**
-         * Busca el usuario en la base de datos.
+         * Valida las credenciales del cliente en el servidor.
          *
-         * El nombre de usuario se obtiene de la parte
-         * anterior al símbolo @ del correo electrónico.
+         * La API verifica usuario/correo y contraseña en la base
+         * de datos y devuelve el usuario sin exponer la contraseña.
          */
         encontrado =
-          usuariosBD.find(u => {
-
-            const usuarioBD =
-              u.correo
-
-                ? u.correo.split('@')[0]
-
-                : '';
-
-
-            return (
-
-              usuarioBD.toLowerCase()
-                === usuario.toLowerCase()
-
-              && u.contrasena === clave
-
-              && u.estado === true
-
-            );
-
-          });
-
+          await API.iniciarSesion(
+            usuario,
+            clave
+          );
 
       } catch (error) {
 
@@ -185,7 +162,7 @@ const Login = {
 
           msgEl,
 
-          '❌ No fue posible conectar con el servidor',
+          '❌ Usuario o contraseña incorrectos',
 
           'error'
 

@@ -106,6 +106,18 @@ public class UsuarioController {
                 usuario.getEstado()
         );
 
+        // Solo cambia la contraseña si se envía una nueva
+        // (evita sobrescribir la actual cuando el formulario
+        // se edita dejando el campo vacío).
+        if (usuario.getContrasena() != null
+                && !usuario.getContrasena().isBlank()) {
+
+            existente.setContrasena(
+                    usuario.getContrasena()
+            );
+
+        }
+
         return usuarioService.guardarUsuario(
                 existente
         );

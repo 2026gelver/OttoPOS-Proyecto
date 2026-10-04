@@ -216,8 +216,8 @@ const Usuarios = {
         document.getElementById('usr-correo').value =
             usuario.correo;
 
-        document.getElementById('usr-contrasena').value =
-            usuario.contrasena;
+        // La API ya no devuelve la contraseña; el campo queda
+        // vacío y, si no se escribe una nueva, se conserva la actual.
 
         document.getElementById('usr-rol').value =
             usuario.rol;

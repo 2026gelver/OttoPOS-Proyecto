@@ -1,6 +1,6 @@
 package com.ottopos.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 
@@ -36,7 +36,12 @@ public class Usuario {
 
     /**
      * Contraseña de acceso del usuario.
+     *
+     * Con {@code WRITE_ONLY} Jackson acepta la contraseña en las peticiones
+     * (POST/PUT) pero nunca la devuelve en las respuestas JSON, de modo
+     * que la API no expone las contraseñas de los usuarios.
      */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String contrasena;
 

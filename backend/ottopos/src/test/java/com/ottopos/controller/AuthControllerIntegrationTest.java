@@ -1,6 +1,9 @@
 package com.ottopos.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ottopos.model.Usuario;
+import com.ottopos.repository.UsuarioRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,65 @@ class AuthControllerIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @BeforeEach
+    void limpiarDatos() {
+        usuarioRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("Login — cliente válido autentica y la respuesta no expone la contraseña")
+    void loginClienteValido() throws Exception {
+
+        Usuario cliente = new Usuario();
+        cliente.setNombre("Cliente TEST");
+        cliente.setCorreo("cliente@correo.com");
+        cliente.setContrasena("clave123");
+        cliente.setRol("Cliente");
+        cliente.setEstado(true);
+        usuarioRepository.save(cliente);
+
+        Map<String, Object> body = Map.of(
+                "usuario", "cliente",
+                "clave", "clave123"
+        );
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("Cliente TEST"))
+                .andExpect(jsonPath("$.rol").value("Cliente"))
+                .andExpect(jsonPath("$.contrasena").doesNotExist());
+    }
+
+    @Test
+    @DisplayName("Login — contraseña incorrecta es rechazada con 401")
+    void loginClaveIncorrectaDevuelve401() throws Exception {
+
+        Usuario cliente = new Usuario();
+        cliente.setNombre("Cliente TEST");
+        cliente.setCorreo("cliente@correo.com");
+        cliente.setContrasena("clave123");
+        cliente.setRol("Cliente");
+        cliente.setEstado(true);
+        usuarioRepository.save(cliente);
+
+        Map<String, Object> body = Map.of(
+                "usuario", "cliente",
+                "clave", "incorrecta"
+        );
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error")
+                        .value("Usuario o contraseña incorrectos"));
+    }
 
     @Test
     @DisplayName("CP-006 — Token de Google inválido es rechazado con 401")

@@ -78,6 +78,57 @@ public class UsuarioService {
     }
 
     /**
+     * Valida las credenciales (usuario y contraseña) de un
+     * cliente registrado en la base de datos.
+     *
+     * El nombre de usuario corresponde a la parte anterior al
+     * símbolo @ del correo electrónico, aunque también se acepta
+     * el correo completo.
+     *
+     * @param usuario nombre de usuario o correo del cliente
+     * @param clave   contraseña ingresada
+     * @return usuario autenticado o null si las credenciales
+     *         no son válidas o el usuario está inactivo
+     */
+    public Usuario autenticar(
+            String usuario,
+            String clave) {
+
+        if (usuario == null || clave == null) {
+
+            return null;
+
+        }
+
+        String usuarioIngresado =
+                usuario.trim();
+
+        return usuarioRepository.findAll().stream()
+                .filter(u -> {
+
+                    String nombreUsuario =
+                            u.getCorreo() != null
+                                    ? u.getCorreo().split("@")[0]
+                                    : "";
+
+                    boolean mismoUsuario =
+                            (u.getCorreo() != null
+                                    && u.getCorreo().equalsIgnoreCase(
+                                            usuarioIngresado))
+                                    || nombreUsuario.equalsIgnoreCase(
+                                            usuarioIngresado);
+
+                    return mismoUsuario
+                            && clave.equals(u.getContrasena())
+                            && Boolean.TRUE.equals(u.getEstado());
+
+                })
+                .findFirst()
+                .orElse(null);
+
+    }
+
+    /**
      * Elimina un usuario de la base de datos.
      *
      * @param id identificador del usuario que se eliminará
